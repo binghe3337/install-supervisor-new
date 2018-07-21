@@ -54,10 +54,13 @@ checkPip()
 {
     pip -V > /dev/null 2>&1 || { echo 'Error: Pip installation failed';exit 1; }
 }
-fileInit()
+installSupervisor()
 {
     pip install supervisor
     supervisorctl --help > /dev/null 2>&1 || { echo 'Error: Supervisor installation failed.';exit 1; }
+}
+fileInit()
+{
     mkdir -p /etc/supervisor/relative/directory
     echo_supervisord_conf > /etc/supervisor/supervisord.conf
     echo '[include]' >> /etc/supervisor/supervisord.conf
@@ -414,6 +417,7 @@ checkSupervisor
 checkPython
 installPip
 checkPip
+installSupervisor
 SUPERVISOR_PATH=`command -v supervisorctl`
 echo $SUPERVISOR_PATH
 if [ "$SUPERVISOR_PATH" == "/usr/local/bin/supervisorctl" ]; then

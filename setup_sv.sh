@@ -414,7 +414,19 @@ checkSupervisor
 checkPython
 installPip
 checkPip
-fileInit
-download_startup_file
-start_supervisor
-enable_supervisor
+SUPERVISOR_PATH=`command -v supervisorctl`
+echo $SUPERVISOR_PATH
+if [ "$SUPERVISOR_PATH" == "/usr/local/bin/supervisorctl" ]; then
+    fileInit
+    download_startup_file_1
+    start_supervisor
+    enable_supervisor
+elif [ "$SUPERVISOR_PATH" == "/usr/bin/supervisorctl" ];then
+    fileInit
+    download_startup_file_2
+    start_supervisor
+    enable_supervisor
+else
+    echo 'Did not find the supervisor installation path'
+    exit 1
+fi

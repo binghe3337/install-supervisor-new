@@ -246,7 +246,7 @@ download_file() {
 
 	download_file_to_path
 }
-download_startup_file() {
+download_startup_file_1() {
 	local supervisor_startup_file=
 	local supervisor_startup_file_url=
 
@@ -257,7 +257,7 @@ download_startup_file() {
 		EOF
 
 		supervisor_startup_file='/lib/systemd/system/supervisord.service'
-		supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor/master/startup/supervisord.systemd"
+		supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup1/supervisord.systemd"
 
 		download_file "$supervisor_startup_file_url" "$supervisor_startup_file"
 		(
@@ -276,10 +276,65 @@ download_startup_file() {
 
 		case "$lsb_dist" in
 			ubuntu|debian|raspbian)
-				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor/master/startup/supervisord.init.debain"
+				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup1/supervisord.init.debain"
 				;;
 			fedora|centos|redhat|oraclelinux|photon)
-				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor/master/startup/supervisord.init.redhat"
+				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup1/supervisord.init.redhat"
+				;;
+			*)
+				echo "没有适合当前系统的服务启动脚本文件。"
+				exit 1
+				;;
+		esac
+
+		download_file "$supervisor_startup_file_url" "$supervisor_startup_file"
+		(
+			set -x
+			chmod a+x "$supervisor_startup_file"
+		)
+	else
+		cat >&2 <<-'EOF'
+		当前服务器未安装 systemctl 或者 service 命令，无法配置服务。
+		请先手动安装 systemd 或者 service 之后再运行脚本。
+		EOF
+
+		exit 1
+	fi
+}
+download_startup_file_2() {
+	local supervisor_startup_file=
+	local supervisor_startup_file_url=
+
+	if command_exists systemctl; then
+
+		cat >&2 <<-'EOF'
+		Oh! systemctl
+		EOF
+
+		supervisor_startup_file='/lib/systemd/system/supervisord.service'
+		supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup2/supervisord.systemd"
+
+		download_file "$supervisor_startup_file_url" "$supervisor_startup_file"
+		(
+			set -x
+			systemctl daemon-reload >/dev/null 2>&1
+		)
+	elif command_exists service; then
+
+		cat >&2 <<-'EOF'
+		Oh! service
+		EOF
+
+		supervisor_startup_file='/etc/init.d/supervisord'
+
+		get_os_info
+
+		case "$lsb_dist" in
+			ubuntu|debian|raspbian)
+				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup2/supervisord.init.debain"
+				;;
+			fedora|centos|redhat|oraclelinux|photon)
+				supervisor_startup_file_url="https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/startup2/supervisord.init.redhat"
 				;;
 			*)
 				echo "没有适合当前系统的服务启动脚本文件。"

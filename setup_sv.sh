@@ -35,9 +35,24 @@ checkPython()
 
     echo 'Your python version is OK!'
 }
+installPip()
+{
+    if pip -V > /dev/null 2>&1; then
+        echo 'python-pip has been installed.'
+    else
+        if command -v apt-get > /dev/null 2>&1; then
+            apt-get -y install python-pip
+        elif command -v yum > /dev/null 2>&1; then
+            yum -y install epel-release
+            yum -y install python-pip
+        else
+            echo 'Error: Dont find apt-get or yum.'
+        fi
+    fi
+}
 checkPip()
 {
-    pip -V > /dev/null 2>&1 || { echo 'Error: dont find pip';exit 1; }
+    pip -V > /dev/null 2>&1 || { echo 'Error: Pip installation failed';exit 1; }
 }
 fileInit()
 {
@@ -342,6 +357,7 @@ enable_supervisor() {
 checkRoot
 checkSupervisor
 checkPython
+installPip
 checkPip
 fileInit
 download_startup_file

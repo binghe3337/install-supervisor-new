@@ -76,7 +76,7 @@ fileInit()
     echo 'startsecs=1' >> /etc/supervisor/relative/directory/templet.ini.bak
     echo 'autostart=true' >> /etc/supervisor/relative/directory/templet.ini.bak
     echo 'user=root' >> /etc/supervisor/relative/directory/templet.ini.bak
-    echo ';directory=/tmp' >> /etc/supervisor/relative/directory/templet.ini.bak
+    echo 'directory=/tmp' >> /etc/supervisor/relative/directory/templet.ini.bak
     echo ';environment=A="1",B="2"' >> /etc/supervisor/relative/directory/templet.ini.bak
     echo ';redirect_stderr=true' >> /etc/supervisor/relative/directory/templet.ini.bak
     echo ';stdout_logfile=/var/log/theprogramname.log' >> /etc/supervisor/relative/directory/templet.ini.bak

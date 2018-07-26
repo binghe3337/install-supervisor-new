@@ -3,7 +3,7 @@ Install and configure the supervisor.
 
 
 一键安装脚本：<br>
-wget https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/setup_sv.sh
+wget https://raw.githubusercontent.com/binghe3337/install-supervisor-new/master/setup_sv.sh<br>
 chmod +x setup_sv.sh<br>
 ./setup_sv.sh<br>
 

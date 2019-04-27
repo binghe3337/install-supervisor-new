@@ -35,8 +35,7 @@ checkPython()
 
     echo 'Your python version is OK!'
 }
-#installPip()
-#{
+#installPip() {
 #    if pip -V > /dev/null 2>&1; then
 #        echo 'python-pip has been installed.'
 #    else
@@ -50,11 +49,10 @@ checkPython()
 #        fi
 #    fi
 #}
-#checkPip()
-#{
+#checkPip() {
 #    pip -V > /dev/null 2>&1 || { echo 'Error: Pip installation failed';exit 1; }
 #}
-installPip(){
+installPip() {
     echo "Install pip";
     which pip > /dev/null 2>&1
     if [ $? == 0 ]; then
@@ -428,7 +426,7 @@ checkRoot
 checkSupervisor
 checkPython
 installPip
-checkPip
+#checkPip
 installSupervisor
 SUPERVISOR_PATH=`command -v supervisorctl`
 echo $SUPERVISOR_PATH
